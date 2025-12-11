@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Đồ án Lý thuyết đồ thị - Sudoku</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <div class="bg-blur"></div>
+    <div class="container">
+        <!-- HEADER CHUNG -->
+        <header class="header">
+            <h1>SUDOKU-Thuật toán tô màu đồ thị</h1>
+            <h2>Thuật toán tô màu đồ thị &amp; Backtracking</h2>
+        </header>
+        <!-- MÀN HÌNH 1: BẮT ĐẦU -->
+        <section id="screen-start" class="screen">
+            <div class="center-box">
+               
+                <button id="btn-start" class="btn primary big">
+                    BẮT ĐẦU CHƠI
+                </button>
+            </div>
+        </section>
+        <!-- MÀN HÌNH 2: CHỌN CHẾ ĐỘ -->
+        <section id="screen-mode" class="screen hidden">
+            <h2 class="screen-title">Chọn chế độ chơi</h2>
+            <div class="mode-grid">
+                <div class="mode-card">
+                    <h3>Tự chơi</h3>
+                    <p>
+                        Người dùng tự giải Sudoku, có Hint (tối đa 3 lần),
+                        sai tối đa 3 lần sẽ GAME OVER.
+                    </p>
+                    <button id="btn-mode-play" class="btn primary">
+                        Vào chế độ Tự chơi
+                    </button>
+                </div>
+                <div class="mode-card">
+                    <h3>Máy giải</h3>
+                    <p>
+                        Máy tự giải Sudoku, có minh hoạ thuật toán backtracking
+                        (20 bước đầu tiên) và hiển thị đáp án.
+                    </p>
+                    <button id="btn-mode-solve" class="btn primary">
+                        Vào chế độ Máy giải
+                    </button>
+                </div>
+            </div>
+        </section>
+        <!-- MÀN HÌNH 3: ỨNG DỤNG CHÍNH (BOARD + CHỨC NĂNG) -->
+        <section id="screen-app" class="screen hidden">
+            <div class="app-header-row">
+                <button id="btn-back-mode" class="btn secondary small">
+                    ← Quay lại chọn chế độ
+                </button>
+                <h2 id="app-title">Chế độ</h2>
+            </div>
+            <div class="main">
+                <!-- BÊN TRÁI: BẢNG SUDOKU -->
+                <section class="board-section">
+                    <div class="board-header">
+                        <p id="board-desc">
+                            Hãy chọn mức độ để bắt đầu.
+                        </p>
+                    </div>
+                    <div class="difficulty-group">
+                        <span>Mức độ:</span>
+                        <div class="difficulty-buttons">
+                            <button class="btn difficulty-btn" data-level="easy">Dễ</button>
+                            <button class="btn difficulty-btn" data-level="medium">Trung bình</button>
+                            <button class="btn difficulty-btn" data-level="hard">Khó</button>
+                        </div>
+                    </div>
+                    <div id="sudoku-board" class="sudoku-board"></div>
+                    <!-- CONTROL CHO CHẾ ĐỘ TỰ CHƠI -->
+                    <div id="play-controls" class="controls hidden">
+                        <div class="play-info-row">
+                            <span id="play-hints">Hint: 0 / 3</span>
+                            <span id="play-mistakes">Sai: 0 / 3</span>
+                        </div>
+                        <div class="play-buttons">
+                            <button id="btn-play-hint" class="btn secondary">
+                                Hint
+                            </button>
+                        </div>
+                    </div>
+                    <!-- CONTROL CHO CHẾ ĐỘ MÁY GIẢI -->
+                    <div id="solve-controls" class="controls hidden">
+                    <div class="solve-buttons">
+                        <button id="btn-solve-auto" class="btn primary">
+                            Giải toàn bộ
+                        </button>
+                        <button id="btn-solve-visual" class="btn secondary">
+                            Minh hoạ (20 bước đầu)
+                        </button>
+                    </div>
+                    <!-- Hàng nút điều khiển khi minh hoạ -->
+                    <div class="solve-buttons" style="margin-top: 6px;">
+                        <button id="btn-solve-pause" class="btn secondary small">
+                            Dừng
+                        </button>
+                        <button id="btn-solve-result" class="btn secondary small">
+                            Kết quả
+                        </button>
+                    </div>
+                </div>
+                    <!-- GAME OVER PANEL -->
+                    <div id="game-over" class="game-over hidden">
+                        <h3>GAME OVER!</h3>
+                        <p>Bạn đã sai 3 lần trong lượt này.</p>
+                        <div class="game-over-buttons">
+                            <button id="btn-over-retry" class="btn primary">
+                                Chơi lại đề cũ
+                            </button>
+                            <button id="btn-over-random" class="btn secondary">
+                                Random đề mới
+                            </button>
+                            <button id="btn-over-exit" class="btn secondary">
+                                Thoát game
+                            </button>
+                        </div>
+                    </div>
+                </section>
+                <!-- BÊN PHẢI: THÔNG TIN / TRẠNG THÁI -->
+                <section class="info-section">
+                    <article class="card">
+                        <h3>Trạng thái</h3>
+                        <p id="status" class="status-box">
+                            Hãy chọn mức độ đề.
+                        </p>
+                    </article>
+                </section>
+            </div>
+        </section>
+        <!-- FOOTER -->
+        <footer class="footer">
+            <p>Bản demo chuẩn bị ra mắt - Được phát triển bởi Lotus</p>
+        </footer>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>
+
+
+
