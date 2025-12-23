@@ -9,21 +9,17 @@
 <body>
     <div class="bg-blur"></div>
     <div class="container">
-        <!-- HEADER CHUNG -->
         <header class="header">
             <h1>SUDOKU-Thuật toán tô màu đồ thị</h1>
             <h2>Thuật toán tô màu đồ thị &amp; Backtracking</h2>
         </header>
-        <!-- MÀN HÌNH 1: BẮT ĐẦU -->
         <section id="screen-start" class="screen">
             <div class="center-box">
-               
                 <button id="btn-start" class="btn primary big">
                     BẮT ĐẦU CHƠI
                 </button>
             </div>
         </section>
-        <!-- MÀN HÌNH 2: CHỌN CHẾ ĐỘ -->
         <section id="screen-mode" class="screen hidden">
             <h2 class="screen-title">Chọn chế độ chơi</h2>
             <div class="mode-grid">
@@ -49,7 +45,6 @@
                 </div>
             </div>
         </section>
-        <!-- MÀN HÌNH 3: ỨNG DỤNG CHÍNH (BOARD + CHỨC NĂNG) -->
         <section id="screen-app" class="screen hidden">
             <div class="app-header-row">
                 <button id="btn-back-mode" class="btn secondary small">
@@ -58,7 +53,6 @@
                 <h2 id="app-title">Chế độ</h2>
             </div>
             <div class="main">
-                <!-- BÊN TRÁI: BẢNG SUDOKU -->
                 <section class="board-section">
                     <div class="board-header">
                         <p id="board-desc">
@@ -74,7 +68,6 @@
                         </div>
                     </div>
                     <div id="sudoku-board" class="sudoku-board"></div>
-                    <!-- CONTROL CHO CHẾ ĐỘ TỰ CHƠI -->
                     <div id="play-controls" class="controls hidden">
                         <div class="play-info-row">
                             <span id="play-hints">Hint: 0 / 3</span>
@@ -86,7 +79,6 @@
                             </button>
                         </div>
                     </div>
-                    <!-- CONTROL CHO CHẾ ĐỘ MÁY GIẢI -->
                     <div id="solve-controls" class="controls hidden">
                     <div class="solve-buttons">
                         <button id="btn-solve-auto" class="btn primary">
@@ -96,7 +88,6 @@
                             Minh hoạ (20 bước đầu)
                         </button>
                     </div>
-                    <!-- Hàng nút điều khiển khi minh hoạ -->
                     <div class="solve-buttons" style="margin-top: 6px;">
                         <button id="btn-solve-pause" class="btn secondary small">
                             Dừng
@@ -106,7 +97,6 @@
                         </button>
                     </div>
                 </div>
-                    <!-- GAME OVER PANEL -->
                     <div id="game-over" class="game-over hidden">
                         <h3>GAME OVER!</h3>
                         <p>Bạn đã sai 3 lần trong lượt này.</p>
@@ -123,7 +113,6 @@
                         </div>
                     </div>
                 </section>
-                <!-- BÊN PHẢI: THÔNG TIN / TRẠNG THÁI -->
                 <section class="info-section">
                     <article class="card">
                         <h3>Trạng thái</h3>
@@ -134,12 +123,15 @@
                 </section>
             </div>
         </section>
-        <!-- FOOTER -->
         <footer class="footer">
             <p>Bản demo chuẩn bị ra mắt - Được phát triển bởi Lotus</p>
         </footer>
     </div>
+
+
     <script src="app.js"></script>
 </body>
 </html>
+
+
 

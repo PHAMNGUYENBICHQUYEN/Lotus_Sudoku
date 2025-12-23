@@ -1,6 +1,3 @@
-// =============================
-// BIẾN TOÀN CỤC & TRẠNG THÁI
-// =============================
 const btnSolvePause = document.getElementById("btn-solve-pause");
 const btnSolveResult = document.getElementById("btn-solve-result");
 const screenStart = document.getElementById("screen-start");
@@ -25,12 +22,10 @@ const gameOverPanel = document.getElementById("game-over");
 const btnOverRetry = document.getElementById("btn-over-retry");
 const btnOverRandom = document.getElementById("btn-over-random");
 const btnOverExit = document.getElementById("btn-over-exit");
-let currentMode = null; // "play" | "solve"
-// Thông tin đề hiện tại
-let currentLevel = null;            // "easy" | "medium" | "hard"
-let currentPuzzleIndex = null;      // index trong mảng level đó
-let currentPuzzleBoard = null;      // ma trận đề hiện tại
-// Trạng thái chế độ tự chơi
+let currentMode = null;
+let currentLevel = null;            
+let currentPuzzleIndex = null;      
+let currentPuzzleBoard = null;    
 const gameState = {
     active: false,
     solutionBoard: null,
@@ -40,7 +35,7 @@ const gameState = {
     maxMistakes: 3
 };
 
-// Trạng thái minh hoạ
+
 let isAnimating = false;
 let visualState = {
     steps: [],
@@ -51,6 +46,7 @@ let visualState = {
     active: false
 };
 
+
 function visualStepRunner() {
     if (!isAnimating || !visualState.active) return;
     if (visualState.isPaused) return;
@@ -60,7 +56,6 @@ function visualStepRunner() {
         visualState.prevInput.classList.remove("animate-step");
     }
     if (i >= steps.length) {
-        // Kết thúc minh hoạ, KHÔNG tự show kết quả
         isAnimating = false;
         visualState.active = false;
         statusElement.textContent =
@@ -72,12 +67,9 @@ function visualStepRunner() {
     if (s.action === "set") {
         input.value = s.num;
         input.classList.remove("wrong");
-       
-        // THÊM DÒNG NÀY ĐỂ NỔI BẬT NHƯ CÁC SỐ MÁY ĐIỀN
         input.classList.add("solution", "colored");
         input.style.color = colorForValue(s.num);
     } else {
-        // UNSET: xoá giá trị & highlight
         input.value = "";
         input.style.color = "";
         input.classList.remove("solution", "colored");
@@ -87,12 +79,10 @@ function visualStepRunner() {
     visualState.index++;
     setTimeout(visualStepRunner, 350);
 }
-// =============================
-// HÀM HỖ TRỢ: BOARD & SOLVER
-// =============================
 function deepCopyBoard(board) {
     return board.map(row => row.slice());
 }
+
 
 function createBoardUI() {
     for (let r = 0; r < 9; r++) {
@@ -118,12 +108,12 @@ function createBoardUI() {
     }
 }
 
+
 function getInputAt(r, c) {
     return boardElement.querySelector(
         `.sudoku-input[data-row="${r}"][data-col="${c}"]`
     );
 }
-// Lấy ma trận từ giao diện
 function getBoardFromUI() {
     const board = Array.from({ length: 9 }, () => Array(9).fill(0));
     const inputs = boardElement.querySelectorAll(".sudoku-input");
@@ -136,7 +126,7 @@ function getBoardFromUI() {
     return board;
 }
 
-// Kiểm tra luật Sudoku
+
 function isSafe(board, row, col, num) {
     for (let x = 0; x < 9; x++) {
         if (board[row][x] === num) return false;
@@ -154,6 +144,7 @@ function isSafe(board, row, col, num) {
     return true;
 }
 
+
 function findEmptyCell(board) {
     for (let r = 0; r < 9; r++) {
         for (let c = 0; c < 9; c++) {
@@ -162,8 +153,6 @@ function findEmptyCell(board) {
     }
     return null;
 }
-
-// Giải Sudoku (trả về board mới)
 function solveBoard(board) {
     const b = deepCopyBoard(board);
     function backtrack() {
@@ -182,9 +171,6 @@ function solveBoard(board) {
     const ok = backtrack();
     return { ok, solution: ok ? b : null };
 }
-
-// Giải và log riêng các bước trên một dòng (dùng cho minh hoạ)
-// Giải Sudoku và log tối đa maxSteps bước đầu để minh hoạ backtracking
 function solveWithStepLog(puzzleBoard, maxSteps = 20) {
     const b = deepCopyBoard(puzzleBoard);
     const steps = [];
@@ -195,12 +181,10 @@ function solveWithStepLog(puzzleBoard, maxSteps = 20) {
         for (let num = 1; num <= 9; num++) {
             if (isSafe(b, r, c, num)) {
                 b[r][c] = num;
-                // Log bước "set" trong 20 bước đầu
                 if (steps.length < maxSteps) {
                     steps.push({ action: "set", r, c, num });
                 }
                 if (backtrack()) return true;
-                // Log bước "unset" (quay lui) trong 20 bước đầu
                 if (steps.length < maxSteps) {
                     steps.push({ action: "unset", r, c, num });
                 }
@@ -212,7 +196,6 @@ function solveWithStepLog(puzzleBoard, maxSteps = 20) {
     const ok = backtrack();
     return { ok, solution: ok ? b : null, steps };
 }
-// Kiểm tra đề ban đầu có hợp lệ hay không
 function isInitialBoardValid(board) {
     for (let r = 0; r < 9; r++) {
         for (let c = 0; c < 9; c++) {
@@ -238,6 +221,7 @@ function isBoardFilled(board) {
     return true;
 }
 
+
 function isBoardValidFull(board) {
     for (let r = 0; r < 9; r++) {
         for (let c = 0; c < 9; c++) {
@@ -254,6 +238,7 @@ function isBoardValidFull(board) {
     return true;
 }
 
+
 function boardsEqual(b1, b2) {
     if (!b1 || !b2) return false;
     for (let r = 0; r < 9; r++) {
@@ -263,12 +248,8 @@ function boardsEqual(b1, b2) {
     }
     return true;
 }
-// =============================
-// DỮ LIỆU ĐỀ SUDOKU (MỖI MỨC ĐỘ 1–N ĐỀ)
-// =============================
 const puzzleSets = {
     easy: [
-    // E1
     [
         [5, 3, 0, 0, 7, 0, 0, 0, 0],
         [6, 0, 0, 1, 9, 5, 0, 0, 0],
@@ -280,7 +261,6 @@ const puzzleSets = {
         [0, 0, 0, 4, 1, 9, 0, 0, 5],
         [0, 0, 0, 0, 8, 0, 0, 7, 9]
     ],
-    // E2
     [
         [0, 0, 3, 0, 2, 0, 6, 0, 0],
         [9, 0, 0, 3, 0, 5, 0, 0, 1],
@@ -292,7 +272,6 @@ const puzzleSets = {
         [8, 0, 0, 2, 0, 3, 0, 0, 9],
         [0, 0, 5, 0, 1, 0, 3, 0, 0]
     ],
-    // E3
     [
         [2, 0, 0, 0, 8, 0, 3, 0, 0],
         [0, 6, 0, 0, 7, 0, 0, 8, 4],
@@ -305,8 +284,7 @@ const puzzleSets = {
         [0, 0, 4, 0, 1, 0, 0, 0, 3]
     ]
 ],
-    medium: [
-    //M1    
+    medium: [  
     [
         [0, 2, 0, 6, 0, 8, 0, 0, 0],
         [5, 8, 0, 0, 0, 9, 7, 0, 0],
@@ -318,7 +296,6 @@ const puzzleSets = {
         [0, 0, 9, 8, 0, 0, 0, 3, 6],
         [0, 0, 0, 3, 0, 6, 0, 9, 0]
 ],
-    // M2
     [
         [0, 0, 0, 2, 6, 0, 7, 0, 1],
         [6, 8, 0, 0, 7, 0, 0, 9, 0],
@@ -330,7 +307,6 @@ const puzzleSets = {
         [0, 4, 0, 0, 5, 0, 0, 3, 6],
         [7, 0, 3, 0, 1, 8, 0, 0, 0]
     ],
-    // M3
     [
         [0, 2, 4, 3, 8, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 6, 0, 0, 7],
@@ -344,7 +320,6 @@ const puzzleSets = {
     ]
 ],
     hard: [
-    // H1
     [
         [0, 0, 0, 0, 0, 0, 6, 8, 0],
         [0, 0, 0, 0, 7, 3, 0, 0, 9],
@@ -356,7 +331,6 @@ const puzzleSets = {
         [7, 0, 0, 6, 8, 0, 0, 0, 0],
         [0, 2, 8, 0, 0, 0, 0, 0, 0]
     ],
-    // H2
     [
         [4, 0, 0, 0, 0, 0, 8, 0, 5],
         [0, 3, 0, 0, 0, 0, 0, 0, 0],
@@ -368,7 +342,6 @@ const puzzleSets = {
         [5, 0, 0, 2, 0, 0, 0, 0, 0],
         [1, 0, 4, 0, 0, 0, 0, 0, 0]
     ],
-    // H3
     [
         [8, 0, 0, 0, 0, 0, 0, 0, 0],
         [0, 0, 3, 6, 0, 0, 0, 0, 0],
@@ -382,6 +355,8 @@ const puzzleSets = {
     ]
 ],
 };
+
+
 
 
 function choosePuzzle(level, avoidIndex = null) {
@@ -400,16 +375,13 @@ function choosePuzzle(level, avoidIndex = null) {
     currentPuzzleBoard = deepCopyBoard(list[idx]);
     return currentPuzzleBoard;
 }
-// =============================
-// RENDER BOARD THEO CHẾ ĐỘ
-// =============================
 function clearAllCells() {
     const inputs = boardElement.querySelectorAll(".sudoku-input");
     inputs.forEach(input => {
         input.value = "";
         input.classList.remove(
             "given",
-            "given-solve",   
+            "given-solve",  
             "solution",
             "user",
             "wrong",
@@ -420,11 +392,10 @@ function clearAllCells() {
         input.style.color = "";
     });
 }
-
-// Render đề cho chế độ Tự chơi
 function renderPuzzleForPlay() {
     clearAllCells();
     boardElement.classList.remove("disabled");
+
 
     if (!currentPuzzleBoard) return;
     for (let r = 0; r < 9; r++) {
@@ -443,11 +414,10 @@ function renderPuzzleForPlay() {
         }
     }
 }
-
-// Render đề cho chế độ Máy giải (chỉ cho xem, không sửa)
 function renderPuzzleForSolve() {
     clearAllCells();
     boardElement.classList.remove("disabled");
+
 
     if (!currentPuzzleBoard) return;
     for (let r = 0; r < 9; r++) {
@@ -458,7 +428,7 @@ function renderPuzzleForSolve() {
                 input.value = val;
                 input.readOnly = true;
                 input.classList.add("given", "colored", "given-solve");
-                input.style.color = colorForValue(val); // màu theo số
+                input.style.color = colorForValue(val);
             } else {
                 input.value = "";
                 input.readOnly = true;
@@ -476,7 +446,6 @@ function resetVisualState() {
     visualState.active = false;
     btnSolvePause.textContent = "Dừng";
 }
-// Render lời giải (máy giải) với màu khác đề
 function renderSolution(solutionBoard) {
     clearAllCells();
     boardElement.classList.remove("disabled");
@@ -488,32 +457,28 @@ function renderSolution(solutionBoard) {
             input.value = val;
             input.readOnly = true;
             if (puzzleVal !== 0) {
-                // Số thuộc đề ban đầu → tô màu theo giá trị, dùng class given+colored
                 input.classList.add("given", "colored", "given-solve");
                 input.style.color = colorForValue(val);
             } else {
-                // Số do máy điền thêm → cũng tô màu theo giá trị, nhưng class solution
                 input.classList.add("solution", "colored");
-                // Số do máy điền thêm → chỉ có màu theo giá trị, KHÔNG highlight
-                input.classList.add("solution"); // bỏ "colored"
+                input.classList.add("solution");
                  input.style.color = colorForValue(val);
+
+
 
 
             }
         }
     }
 }
-// Bật / tắt disable board (khi GAME OVER)
 function setBoardDisabled(disabled) {
     if (disabled) boardElement.classList.add("disabled");
     else boardElement.classList.remove("disabled");
 }
-// Cập nhật label hint / sai
 function updatePlayLabels() {
     playHintsLabel.textContent = `Hint: ${gameState.hintsUsed} / ${gameState.maxHints}`;
     playMistakesLabel.textContent = `Sai: ${gameState.mistakes} / ${gameState.maxMistakes}`;
 }
-// Reset trạng thái game tự chơi
 function resetPlayState() {
     gameState.active = false;
     gameState.solutionBoard = null;
@@ -523,22 +488,19 @@ function resetPlayState() {
     gameOverPanel.classList.add("hidden");
     setBoardDisabled(false);
 }
-// =============================
-// XỬ LÝ INPUT TRÊN Ô
-// =============================
 function onCellInput(e) {
     if (isAnimating) {
-        // đang minh hoạ, không cho thao tác
         e.target.value = "";
         return;
     }
 
+
     if (currentMode === "play") handlePlayInput(e);
     else {
-        // ở chế độ máy giải: không cho sửa
         e.target.value = "";
     }
 }
+
 
 function handlePlayInput(e) {
     if (!gameState.active) {
@@ -554,12 +516,11 @@ function handlePlayInput(e) {
     const r = Number(input.dataset.row);
     const c = Number(input.dataset.col);
 
-    // Ô đề gốc thì không cho sửa
+
     if (currentPuzzleBoard && currentPuzzleBoard[r][c] !== 0) {
         input.value = currentPuzzleBoard[r][c];
         return;
     }
-    // Reset style tạm
     input.classList.remove("wrong", "animate-step", "flash-correct");
     input.style.color = "";
     const vStr = input.value.trim();
@@ -572,11 +533,9 @@ function handlePlayInput(e) {
         return;
     }
     const val = Number(vStr);
-    // Nếu có bảng lời giải -> so trực tiếp với đáp án chính xác
     if (gameState.solutionBoard) {
         const correctVal = gameState.solutionBoard[r][c];
         if (val !== correctVal) {
-        // SAI theo đáp án (KHÔNG lộ đáp án)
         gameState.mistakes++;
         updatePlayLabels();
         input.classList.add("wrong");
@@ -590,17 +549,14 @@ function handlePlayInput(e) {
         }
         return;
     }
-        // ĐÚNG theo đáp án
         input.classList.remove("wrong");
         input.classList.add("user");
         statusElement.textContent =
             `Đã đặt đúng số ${val} vào ô (${r + 1}, ${c + 1}).`;
-        // Flash xanh rồi trở lại bình thường
         input.classList.add("flash-correct");
         setTimeout(() => {
             input.classList.remove("flash-correct");
         }, 450);
-        // Kiểm tra xem đã trùng toàn bộ với lời giải chưa
         const currentBoard = getBoardFromUI();
         if (boardsEqual(currentBoard, gameState.solutionBoard)) {
             statusElement.textContent =
@@ -609,8 +565,6 @@ function handlePlayInput(e) {
         }
         return;
     }
-
-    // Trường hợp dự phòng (không có solutionBoard): dùng ràng buộc Sudoku
     const board = getBoardFromUI();
     board[r][c] = 0;
     if (!isSafe(board, r, c, val)) {
@@ -628,6 +582,7 @@ function handlePlayInput(e) {
         return;
     }
 
+
     input.classList.remove("wrong");
     input.classList.add("user");
     statusElement.textContent =
@@ -644,10 +599,6 @@ function handlePlayInput(e) {
         }
     }
 }
-
-// =============================
-// HINT (TỰ CHƠI)
-// =============================
 function handlePlayHintClick() {
     if (!gameState.active) {
         statusElement.textContent =
@@ -686,11 +637,7 @@ function handlePlayHintClick() {
     statusElement.textContent =
         `Hint: đặt đúng số ${val} vào ô (${r + 1}, ${c + 1}).`;
 }
-// =============================
-// MÁY GIẢI: GIẢI TOÀN BỘ
-// =============================
 function handleSolveAuto() {
-    // Nếu đang minh hoạ thì dừng
     isAnimating = false;
     visualState.active = false;
     visualState.isPaused = false;
@@ -714,19 +661,18 @@ function handleSolveAuto() {
     statusElement.textContent =
         "Máy đã giải xong Sudoku. Số đề gốc và số máy điền có màu khác nhau.";
 }
-// =============================
-// MÁY GIẢI: MINH HOẠ MỘT DÒNG
-// =============================
 const valueColors = [
     "#f97373", "#fbbf24", "#4ade80",
     "#22d3ee", "#a855f7", "#f472b6",
     "#38bdf8", "#facc15", "#2dd4bf"
 ];
 
+
 function colorForValue(num) {
     if (num < 1 || num > 9) return "#e5e7eb";
     return valueColors[num - 1];
 }
+
 
 function handleSolveVisual() {
     if (!currentPuzzleBoard) {
@@ -741,13 +687,11 @@ function handleSolveVisual() {
             `Đề không hợp lệ: số ${check.value} tại ô (${check.row + 1}, ${check.col + 1}) vi phạm luật Sudoku.`;
         return;
     }
-    // Lấy tối đa 20 bước đầu tiên của quá trình backtracking
     const { ok, solution, steps } = solveWithStepLog(currentPuzzleBoard, 20);
     if (!ok || !solution) {
         statusElement.textContent = "Không tìm được nghiệm để minh hoạ.";
         return;
     }
-    // Reset state minh hoạ
     visualState.steps = steps;
     visualState.index = 0;
     visualState.solution = solution;
@@ -758,7 +702,6 @@ function handleSolveVisual() {
     btnSolvePause.textContent = "Dừng";
     statusElement.textContent =
         "Đang minh hoạ 20 bước đầu tiên của thuật toán backtracking...";
-    // Render đề rồi bắt đầu chạy từng bước
     renderPuzzleForSolve();
     visualStepRunner();
 }
@@ -766,6 +709,7 @@ function handleSolvePause() {
     if (!visualState.active) return;
     visualState.isPaused = !visualState.isPaused;
     btnSolvePause.textContent = visualState.isPaused ? "Tiếp tục" : "Dừng";
+
 
     if (!visualState.isPaused) {
         statusElement.textContent =
@@ -781,15 +725,12 @@ function handleSolveShowResult() {
             "Hãy chọn mức độ trong chế độ MÁY GIẢI trước.";
         return;
     }
-    // Luôn giải lại đề hiện tại, KHÔNG dùng solution cũ
     const { ok, solution } = solveBoard(currentPuzzleBoard);
     if (!ok || !solution) {
         statusElement.textContent = "Không tìm được nghiệm để hiển thị kết quả.";
         return;
     }
-    // Cập nhật luôn vào visualState (để lần sau nếu cần vẫn có)
     visualState.solution = solution;
-    // Dừng animation minh hoạ (nếu đang chạy)
     isAnimating = false;
     visualState.active = false;
     visualState.isPaused = false;
@@ -800,13 +741,10 @@ function handleSolveShowResult() {
     statusElement.textContent =
         "Đã hiển thị đáp án cho đúng đề hiện tại.";
 }
-// =============================
-// QUẢN LÝ GAME OVER (TỰ CHƠI)
-// =============================
 function handleGameOverRetry() {
     if (!currentLevel || currentPuzzleIndex === null) return;
     resetPlayState();
-    choosePuzzle(currentLevel, null); // giữ index cũ
+    choosePuzzle(currentLevel, null);
     const { ok, solution } = solveBoard(currentPuzzleBoard);
     if (!ok) {
         statusElement.textContent = "Đề hiện tại không có nghiệm.";
@@ -819,10 +757,11 @@ function handleGameOverRetry() {
         "Đã chơi lại đề cũ. Bạn có 3 lần sai và 3 Hint.";
 }
 
+
 function handleGameOverRandom() {
     if (!currentLevel) return;
     resetPlayState();
-    choosePuzzle(currentLevel, currentPuzzleIndex); // cố gắng chọn đề khác
+    choosePuzzle(currentLevel, currentPuzzleIndex);
     const { ok, solution } = solveBoard(currentPuzzleBoard);
     if (!ok) {
         statusElement.textContent = "Đề mới không có nghiệm.";
@@ -843,15 +782,10 @@ function handleGameOverExit() {
     statusElement.textContent =
         "Bạn đã thoát game Tự chơi. Hãy chọn chế độ tiếp theo.";
 }
-
-// =============================
-// CHỌN MỨC ĐỘ THEO CHẾ ĐỘ
-// =============================
 function handleDifficultyClick(level) {
     if (isAnimating) return;
     resetVisualState();
     if (currentMode === "play") {
-        // Bắt đầu ván TỰ CHƠI mới
         resetPlayState();
         const board = choosePuzzle(level, null);
         if (!board) {
@@ -869,7 +803,6 @@ function handleDifficultyClick(level) {
         statusElement.textContent =
             `Đang chơi Sudoku (mức: ${level.toUpperCase()}). Bạn có 3 Hint và 3 lần sai.`;
     } else if (currentMode === "solve") {
-        // Đề cho MÁY GIẢI
         const board = choosePuzzle(level, null);
         if (!board) {
             statusElement.textContent = "Hiện không có đề cho mức độ này.";
@@ -880,9 +813,6 @@ function handleDifficultyClick(level) {
             `Máy sẵn sàng giải Sudoku (mức: ${level.toUpperCase()}). Chọn "Giải toàn bộ" hoặc "Minh hoạ".`;
     }
 }
-// =============================
-// QUẢN LÝ MÀN HÌNH
-// =============================
 function showScreen(name) {
     screenStart.classList.add("hidden");
     screenMode.classList.add("hidden");
@@ -891,12 +821,8 @@ function showScreen(name) {
     else if (name === "mode") screenMode.classList.remove("hidden");
     else if (name === "app") screenApp.classList.remove("hidden");
 }
-// =============================
-// GÁN SỰ KIỆN
-// =============================
 document.addEventListener("DOMContentLoaded", () => {
     createBoardUI();
-    // Điều hướng màn hình
     btnStart.addEventListener("click", () => {
         showScreen("mode");
     });
@@ -933,26 +859,20 @@ document.addEventListener("DOMContentLoaded", () => {
         showScreen("mode");
         statusElement.textContent = "Hãy chọn mức độ đề";
     });
-    // Nút mức độ
     document.querySelectorAll(".difficulty-btn").forEach(btn => {
         btn.addEventListener("click", () => {
             const level = btn.dataset.level;
             handleDifficultyClick(level);
         });
     });
-    // Nút Hint (tự chơi)
     btnPlayHint.addEventListener("click", handlePlayHintClick);
-    // Nút máy giải
     btnSolveAuto.addEventListener("click", handleSolveAuto);
     btnSolveVisual.addEventListener("click", handleSolveVisual);
-    // Nút GAME OVER
     btnOverRetry.addEventListener("click", handleGameOverRetry);
     btnOverRandom.addEventListener("click", handleGameOverRandom);
     btnOverExit.addEventListener("click", handleGameOverExit);
-        // Nút Dừng & Kết quả trong minh hoạ
     btnSolvePause.addEventListener("click", handleSolvePause);
     btnSolveResult.addEventListener("click", handleSolveShowResult);
-    // Mặc định là màn hình "Bắt đầu"
     showScreen("start");
 });
 

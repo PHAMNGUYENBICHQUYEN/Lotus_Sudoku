@@ -1,4 +1,3 @@
-/* ===== RESET ===== */
 * {
     box-sizing: border-box;
     margin: 0;
@@ -6,7 +5,7 @@
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* ===== NỀN CHUNG ===== */
+
 body {
     min-height: 100vh;
     background: radial-gradient(circle at top, #1f2937, #020617);
@@ -16,8 +15,6 @@ body {
     justify-content: center;
     padding: 20px;
 }
-
-/* Hiệu ứng nền mờ nhiều màu */
 .bg-blur {
     position: fixed;
     inset: 0;
@@ -29,8 +26,6 @@ body {
     filter: blur(40px);
     z-index: -1;
 }
-
-/* ===== KHUNG CHÍNH ===== */
 .container {
     width: 100%;
     max-width: 1150px;
@@ -41,79 +36,63 @@ body {
         0 20px 50px rgba(0, 0, 0, 0.75),
         0 0 0 1px rgba(148, 163, 184, 0.25);
 }
-
-/* ===== HEADER ===== */
 .header {
     text-align: center;
     margin-bottom: 18px;
 }
-
 .header h1 {
     font-size: 1.8rem;
     letter-spacing: 3px;
     text-transform: uppercase;
     color: #e5e7eb;
 }
-
 .header h2 {
     font-size: 1.05rem;
     font-weight: 500;
     color: #a5b4fc;
     margin-top: 6px;
 }
-
 .subtitle {
     margin-top: 4px;
     font-size: 0.85rem;
     color: #9ca3af;
 }
-
-/* ===== SCREEN COMMON ===== */
 .screen {
     margin-top: 8px;
 }
-
 .hidden {
     display: none !important;
 }
-
-/* ===== SCREEN START ===== */
 .center-box {
     text-align: center;
-    padding: 30px 10px 40px; /* tăng padding để khung cao hơn */
+    padding: 30px 10px 40px;
 }
 #btn-start {
-    font-size: 1.6rem;     /* chữ to hơn */
-    padding: 15px 40px;    /* nút lớn hơn */
-    font-weight: bold;     /* nổi bật hơn */
+    font-size: 1.6rem;    
+    padding: 15px 40px;    
+    font-weight: bold;    
 }
-
 .center-box p {
     font-size: 0.95rem;
     color: #d1d5db;
     margin-bottom: 14px;
 }
-
-/* ===== SCREEN MODE ===== */
 .screen-title {
     font-size: 1.2rem;
     margin-bottom: 16px;
     text-align: center;
     color: #e5e7eb;
 }
-
 .mode-grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 16px;
 }
-
 @media (max-width: 800px) {
     .mode-grid {
         grid-template-columns: 1fr;
     }
 }
-
 .mode-card {
     background: rgba(15, 23, 42, 0.96);
     border-radius: 18px;
@@ -121,46 +100,36 @@ body {
     border: 1px solid rgba(148, 163, 184, 0.6);
     box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
 }
-
 .mode-card h3 {
     font-size: 1.05rem;
     margin-bottom: 6px;
     color: #e5e7eb;
 }
-
 .mode-card p {
     font-size: 0.9rem;
     color: #d1d5db;
     margin-bottom: 10px;
 }
-
-/* ===== APP HEADER ROW ===== */
 .app-header-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 10px;
 }
-
 #app-title {
     font-size: 1.1rem;
     color: #e5e7eb;
 }
-
-/* ===== MAIN LAYOUT (BOARD + INFO) ===== */
 .main {
     display: grid;
     grid-template-columns: 2.1fr 1.4fr;
     gap: 20px;
 }
-
 @media (max-width: 900px) {
     .main {
         grid-template-columns: 1fr;
     }
 }
-
-/* ===== BOARD SECTION ===== */
 .board-section {
     background: radial-gradient(
         circle at top left,
@@ -172,14 +141,11 @@ body {
     border: 1px solid rgba(129, 140, 248, 0.45);
     position: relative;
 }
-
 .board-header p {
     font-size: 0.9rem;
     color: #cbd5f5;
     margin-bottom: 8px;
 }
-
-/* ===== DIFFICULTY ===== */
 .difficulty-group {
     display: flex;
     align-items: center;
@@ -188,19 +154,15 @@ body {
     flex-wrap: wrap;
     margin-bottom: 10px;
 }
-
 .difficulty-group span {
     font-size: 0.9rem;
     color: #e5e7eb;
 }
-
 .difficulty-buttons {
     display: flex;
     gap: 8px;
     flex-wrap: wrap;
 }
-
-/* ===== BẢNG SUDOKU ===== */
 .sudoku-board {
     margin: 10px auto 12px;
     width: min(380px, 100%);
@@ -215,55 +177,46 @@ body {
         0 0 0 1px #4f46e5,
         0 12px 25px rgba(15, 23, 42, 0.9);
 }
-
 .sudoku-board.disabled {
     pointer-events: none;
     opacity: 0.5;
 }
-
 .sudoku-cell {
     border: 1px solid rgba(148, 163, 184, 0.4);
     position: relative;
 }
 
-/* Đường đậm chia block 3x3 */
+
 .sudoku-cell.block-right {
     border-right: 2px solid #4f46e5;
 }
 .sudoku-cell.block-bottom {
     border-bottom: 2px solid #4f46e5;
 }
-
-/* Số có màu (dùng cho đề, lời giải, minh hoạ) */
 .sudoku-input.colored {
     font-weight: 700;
     text-shadow:
         0 0 6px rgba(148, 163, 184, 0.9),
         0 0 12px rgba(15, 23, 42, 1);
 }
-
-/* Đề gốc (KHÔNG underline mặc định) */
 .sudoku-input.given {
     color: #38bdf8;
     font-weight: 700;
     text-shadow:
         0 0 5px rgba(129, 140, 248, 0.9),
         0 0 10px rgba(15, 23, 42, 1);
-    /* KHÔNG có text-decoration ở đây */
 }
-
-
-/* CHỈ gạch dưới đề trong chế độ MÁY GIẢI */
 .sudoku-input.given.given-solve {
     text-decoration: underline;
     text-decoration-thickness: 2px;
     text-underline-offset: 2px;
 }
-
-/* Hiệu ứng chớp xanh khi người chơi nhập đúng */
 .sudoku-input.flash-correct {
     animation: flashGreen 0.45s ease-out forwards;
 }
+
+
+
 
 @keyframes flashGreen {
     0% {
@@ -275,7 +228,6 @@ body {
         box-shadow: none;
     }
 }
-/* Ô nhập số */
 .sudoku-input {
     width: 100%;
     height: 100%;
@@ -287,37 +239,25 @@ body {
     color: #e5e7eb;
     caret-color: #facc15;
 }
-
-/* Đề gốc (màu xanh dương) */
 .sudoku-input.given {
     color: #38bdf8;
     font-weight: 700;
 }
-
-/* Số máy điền (màu xanh lá) */
 .sudoku-input.solution {
     color: #22c55e;
     font-weight: 700;
 }
-
-/* Số máy giải điền */
 .sudoku-input.solution {
     color: #4ade80;
     font-weight: 700;
 }
-
-/* Số người chơi điền (đúng) */
 .sudoku-input.user {
     color: #e5e7eb;
 }
-
-/* Sai */
 .sudoku-input.wrong {
     color: #f97373;
     font-weight: 700;
 }
-
-/* Focus */
 .sudoku-input:focus {
     background: rgba(55, 65, 81, 0.95);
     box-shadow:
@@ -325,18 +265,13 @@ body {
         0 0 14px rgba(250, 204, 21, 0.8);
     z-index: 1;
 }
-
-/* Bước đang minh hoạ */
 .sudoku-input.animate-step {
     box-shadow: 0 0 0 2px #facc15;
     background: rgba(250, 204, 21, 0.12);
 }
-
-/* ===== CONTROLS ===== */
 .controls {
     margin-top: 8px;
 }
-
 .play-info-row {
     display: flex;
     justify-content: space-between;
@@ -344,20 +279,16 @@ body {
     color: #e5e7eb;
     margin-bottom: 6px;
 }
-
 .play-buttons,
 .solve-buttons {
     display: flex;
     gap: 8px;
 }
-/* CHỈ gạch dưới đề trong chế độ máy giải */
 .sudoku-input.given.given-solve {
     text-decoration: underline;
     text-decoration-thickness: 2px;
     text-underline-offset: 2px;
 }
-
-/* ===== GAME OVER ===== */
 .game-over {
     margin-top: 12px;
     padding: 10px 12px;
@@ -366,43 +297,35 @@ body {
     border: 1px solid rgba(248, 113, 113, 0.8);
     color: #fee2e2;
 }
-
 .game-over h3 {
     font-size: 1rem;
     margin-bottom: 4px;
 }
-
 .game-over p {
     font-size: 0.9rem;
     margin-bottom: 8px;
 }
-
 .game-over-buttons {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
 }
-
-/* ===== INFO / STATUS ===== */
 .info-section {
     display: flex;
     flex-direction: column;
     gap: 14px;
 }
-
 .card {
     background: rgba(15, 23, 42, 0.96);
     border-radius: 16px;
     padding: 14px 14px 10px;
     border: 1px solid rgba(148, 163, 184, 0.6);
 }
-
 .card h3 {
     font-size: 1rem;
     margin-bottom: 6px;
     color: #e5e7eb;
 }
-
 .status-box {
     margin-top: 4px;
     padding: 8px 10px;
@@ -413,8 +336,6 @@ body {
     color: #e5e7eb;
     min-height: 44px;
 }
-
-/* ===== BUTTONS ===== */
 .btn {
     border: none;
     border-radius: 999px;
@@ -427,17 +348,14 @@ body {
     justify-content: center;
     white-space: nowrap;
 }
-
 .btn.small {
     padding: 5px 10px;
     font-size: 0.8rem;
 }
-
 .btn.big {
     padding: 10px 20px;
     font-size: 0.95rem;
 }
-
 .btn.primary {
     background: linear-gradient(135deg, #4f46e5, #6366f1);
     color: #f9fafb;
@@ -445,42 +363,51 @@ body {
         0 10px 24px rgba(79, 70, 229, 0.6),
         0 0 0 1px rgba(191, 219, 254, 0.25);
 }
-
 .btn.secondary {
     background: rgba(15, 23, 42, 0.9);
     color: #e5e7eb;
     border: 1px solid rgba(148, 163, 184, 0.8);
 }
-
 .btn.difficulty-btn {
     background: rgba(15, 23, 42, 0.85);
     color: #c7d2fe;
     border: 1px solid rgba(99, 102, 241, 0.9);
     font-size: 0.83rem;
 }
-
 .btn:hover {
     transform: translateY(-1px);
     box-shadow: 0 14px 30px rgba(15, 23, 42, 0.7);
     filter: brightness(1.05);
 }
-
 .btn:active {
     transform: translateY(0);
     box-shadow: none;
     filter: brightness(0.95);
 }
-
-/* ===== FOOTER ===== */
 .footer {
     margin-top: 16px;
     text-align: center;
-    font-size: 1rem;       /* tăng kích thước chữ */
-    /* CHỈNH CHỮ XANH + NỔI BẬT */
-    color: #8feffc;        /* xanh đậm */
-    font-weight: bold;     /* làm nổi chữ */
-    text-shadow: 0 0 6px rgba(164, 217, 231, 0.707); /* highlight phát sáng nhẹ */
+    font-size: 1rem;      
+    color: #8feffc;        
+    font-weight: bold;    
+    text-shadow: 0 0 6px rgba(164, 217, 231, 0.707);
     border-top: 1px solid rgba(55, 65, 81, 0.7);
     padding-top: 8px;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
