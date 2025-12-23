@@ -955,3 +955,4 @@ document.addEventListener("DOMContentLoaded", () => {
     // Mặc định là màn hình "Bắt đầu"
     showScreen("start");
 });
+
